@@ -1,40 +1,46 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
+import AppContext from '../Context/AppContext'
 
-const Search = ({ searchkey, setSearchKey, type, setType, setError }) => {
+const Search = ({ searchkey, setSearchKey, setError }) => {
   const [searchList, setSearchList] = useState('')
   const navigate = useNavigate()
 
+  const { ctype, setCType } = useContext(AppContext)
+
   useEffect(() => {
-    setType('movie')
+    setCType('movie')
     setSearchKey('')
   }, [])
 
   useEffect(() => {
     if (searchList.Search) {
       navigate('/searchresult', { state: { ...searchList } })
+    } else if (searchList.Response === 'False') {
+      alert('No Such Data Exist')
     }
   }, [searchList])
 
-  const mainURL =
-    type == 'movie'
-      ? `https://www.omdbapi.com/?apikey=20ee532c&s=${searchkey}&type=movie`
-      : `https://www.omdbapi.com/?apikey=20ee532c&s=${searchkey}&type=series`
+  const mainURL = `https://www.omdbapi.com/?apikey=20ee532c&s=${searchkey}&type=${ctype}`
 
   useEffect(() => {
     getData(mainURL)
-  }, [type])
+  }, [ctype])
 
   const getData = async (URL) => {
-    try {
-      const response = await fetch(URL)
-      const data = await response.json()
+    if (searchkey)
+      try {
+        const response = await fetch(URL)
+        const data = await response.json()
+        setSearchList(data)
 
-      setSearchList(data)
-    } catch (e) {
-      setError(true)
-    }
+        // if (data.Response === 'True') {
+        //   setSearchList(data)
+        // }
+      } catch (e) {
+        setError(true)
+      }
   }
 
   const handleSearch = (e) => {
@@ -44,8 +50,6 @@ const Search = ({ searchkey, setSearchKey, type, setType, setError }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
-    setType('movie')
     getData(mainURL)
   }
 

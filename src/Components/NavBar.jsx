@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Search from './Search'
 import { Link } from 'react-router-dom'
 import logo from '../Assets/logo.png'
 import { FaHome } from 'react-icons/fa'
 
-const NavBar = ({ searchkey, setSearchKey, type, setError, setType }) => {
+const NavBar = ({ searchkey, setSearchKey, setError }) => {
   return (
     <div className="fixed w-full">
       <div className="bg-yellow-500 w-[90%] flex items-center justify-center m-auto gap-[20%] py-4 px-4">
@@ -17,9 +17,7 @@ const NavBar = ({ searchkey, setSearchKey, type, setError, setType }) => {
         <Search
           searchkey={searchkey}
           setSearchKey={setSearchKey}
-          type={type}
           setError={setError}
-          setType={setType}
         />
 
         <div>

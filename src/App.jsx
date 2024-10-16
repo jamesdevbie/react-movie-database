@@ -8,7 +8,6 @@ import SearchResult from './Pages/SearchResult'
 const App = () => {
   const [searchkey, setSearchKey] = useState('')
   const [searchList, setSearchList] = useState('')
-  const [type, setType] = useState('movie')
   const [error, setError] = useState(false)
 
   return (
@@ -18,28 +17,14 @@ const App = () => {
           searchkey={searchkey}
           setSearchKey={setSearchKey}
           setError={setError}
-          type={type}
-          setType={setType}
         />
         <Routes>
-          <Route
-            path="/"
-            element={
-              <Home setSearchKey={setSearchKey} type={type} setType={setType} />
-            }
-          />
+          <Route path="/" element={<Home setSearchKey={setSearchKey} />} />
           <Route path="moviedetails/:id" element={<MovieDetails />} />
 
           <Route
             path="searchresult"
-            element={
-              <SearchResult
-                searchList={searchList}
-                setType={setType}
-                error={error}
-                type={type}
-              />
-            }
+            element={<SearchResult searchList={searchList} error={error} />}
           />
         </Routes>
       </BrowserRouter>

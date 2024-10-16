@@ -1,18 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import MovieList from '../Components/MovieList'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMovies } from '../Redux/Slice/MovieSlice'
 import { Link, useNavigate } from 'react-router-dom'
 import { IoArrowBackCircle, IoArrowForwardCircle } from 'react-icons/io5'
+import AppContext from '../Context/AppContext'
 
-const Home = ({ setSearchKey, type, setType }) => {
+const Home = ({ setSearchKey}) => {
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const movies = useSelector((state) => state.movieList)
   const navigate = useNavigate()
   const [page, setPage] = useState(1)
 
-  const mainURL = `https://www.omdbapi.com/?apikey=20ee532c&s=man&type=${type}`
+  const { ctype, setCType } = useContext(AppContext)
+
+  useEffect(() => setCType('movie'), [])
+
+  const mainURL = `https://www.omdbapi.com/?apikey=20ee532c&s=man&type=${ctype}`
 
   let perPage = 8
   let movieLength = movies.movies.length
@@ -21,7 +26,6 @@ const Home = ({ setSearchKey, type, setType }) => {
 
   useEffect(() => {
     setSearchKey('')
-    setType('movie')
 
     setPage(1)
     if (movies.movies.length == 0) {
@@ -31,7 +35,7 @@ const Home = ({ setSearchKey, type, setType }) => {
 
   useEffect(() => {
     getData(mainURL)
-  }, [type])
+  }, [ctype])
 
   const getData = async (URL) => {
     try {
@@ -95,9 +99,10 @@ const Home = ({ setSearchKey, type, setType }) => {
           className="text-black bg-yellow-500 font-bold mr-4 rounded-md"
           name="type"
           id="type"
+          value={ctype}
           onChange={(e) => {
             e.stopPropagation()
-            setType(e.target.value)
+            setCType(e.target.value)
           }}
         >
           <option value="movie">Movie</option>

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import MovieList from '../Components/MovieList'
 import { IoArrowBackCircle, IoArrowForwardCircle } from 'react-icons/io5'
+import AppContext from '../Context/AppContext'
 
-const SearchResult = ({ type, setType, searchList, error }) => {
+const SearchResult = ({ searchList }) => {
+  const { ctype, setCType } = useContext(AppContext)
   const location = useLocation()
   const navigate = useNavigate()
   const movies = location.state
@@ -56,10 +58,10 @@ const SearchResult = ({ type, setType, searchList, error }) => {
           className="text-black bg-yellow-500 font-bold mr-4 rounded-md"
           name="type"
           id="type"
-          value={type}
+          value={ctype}
           onChange={(e) => {
             e.stopPropagation()
-            setType(e.target.value)
+            setCType(e.target.value)
           }}
         >
           <option value="movie">Movie</option>
