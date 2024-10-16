@@ -29,18 +29,19 @@ const Search = ({ searchkey, setSearchKey, setError }) => {
   }, [ctype])
 
   const getData = async (URL) => {
-    if (searchkey)
-      try {
+    try {
+      if (searchkey) {
         const response = await fetch(URL)
         const data = await response.json()
         setSearchList(data)
-
-        // if (data.Response === 'True') {
-        //   setSearchList(data)
-        // }
-      } catch (e) {
-        setError(true)
       }
+
+      // if (data.Response === 'True') {
+      //   setSearchList(data)
+      // }
+    } catch (e) {
+      setError(true)
+    }
   }
 
   const handleSearch = (e) => {
