@@ -20,7 +20,7 @@ const NavBar = ({ searchkey, setSearchKey, setError }) => {
           setError={setError}
         />
 
-        <div>
+        <div onClick={() => window.location.reload()}>
           <Link to={'/'}>
             <FaHome className="text-red-800 text-[40px]" />
           </Link>
