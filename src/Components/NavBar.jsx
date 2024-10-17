@@ -8,7 +8,7 @@ const NavBar = ({ searchkey, setSearchKey, setError }) => {
   return (
     <div className="fixed w-full">
       <div className="bg-yellow-500 w-[90%] flex items-center justify-center m-auto gap-[20%] py-4 px-4">
-        <div>
+        <div onClick={() => window.location.reload()}>
           <Link to={'/'}>
             {' '}
             <img className="w-[100px] h-[100px]" src={logo} alt="logo" />{' '}
